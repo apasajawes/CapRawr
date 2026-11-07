@@ -1,6 +1,7 @@
 use crate::engine::clip::Clip;
 use crate::engine::project::Project;
 use crate::engine::track::TrackKind;
+use crate::media::decoder::{probe_audio, probe_video};
 use egui::{self, Color32, RichText};
 
 pub fn show(ctx: &egui::Context, project: &mut Project, open: &mut bool) {
@@ -23,8 +24,12 @@ pub fn show(ctx: &egui::Context, project: &mut Project, open: &mut bool) {
                     .pick_files()
                 {
                     for path in paths {
-                        // ponytail: hardcoded 5s duration — replace with ffprobe metadata read
-                        let clip = Clip::new(path, 5.0);
+                        // Read real duration via ffprobe, fallback to 5.0s for static images
+                        let duration = probe_video(&path)
+                            .map(|info| info.duration)
+                            .unwrap_or(5.0);
+
+                        let clip = Clip::new(path, duration);
                         if project.timeline.tracks.is_empty() {
                             project.timeline.add_video_track();
                         }
@@ -50,7 +55,11 @@ pub fn show(ctx: &egui::Context, project: &mut Project, open: &mut bool) {
                     .pick_files()
                 {
                     for path in paths {
-                        let clip = Clip::new(path, 5.0);
+                        let duration = probe_audio(&path)
+                            .map(|info| info.duration)
+                            .unwrap_or(5.0);
+
+                        let clip = Clip::new(path, duration);
                         if project
                             .timeline
                             .tracks

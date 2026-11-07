@@ -36,9 +36,9 @@ CapRawr takes the proven NLE architecture patterns from this analysis and implem
 - [x] Media file import dialog with real metadata probing
 - [x] FFmpeg/ffprobe auto-discovery (system PATH or CapCut bundled binary fallback)
 - [x] Real-time video preview playback & frame decoding with LRU cache
+- [x] Export video rendering (FFmpeg HW acceleration: NVENC, MediaFoundation, AMF, QSV, libx264)
 - [ ] GPU effect pipeline via wgpu (next phase)
 - [ ] Audio playback via rodio/cpal (next phase)
-- [ ] Export video rendering (next phase)
 
 ## Building
 

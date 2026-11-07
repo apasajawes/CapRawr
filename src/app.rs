@@ -11,6 +11,7 @@ pub struct CapRawrApp {
     last_rendered_time: f64,
     last_tick: Instant,
     show_media_browser: bool,
+    export_state: ui::export_dialog::ExportState,
 }
 
 impl CapRawrApp {
@@ -22,6 +23,7 @@ impl CapRawrApp {
             last_rendered_time: -1.0,
             last_tick: Instant::now(),
             show_media_browser: false,
+            export_state: ui::export_dialog::ExportState::default(),
         }
     }
 }
@@ -67,7 +69,12 @@ impl eframe::App for CapRawrApp {
             self.last_rendered_time = self.project.playhead;
         }
 
-        ui::toolbar::show(ctx, &mut self.project, &mut self.show_media_browser);
+        ui::toolbar::show(
+            ctx,
+            &mut self.project,
+            &mut self.show_media_browser,
+            &mut self.export_state.open,
+        );
         ui::preview::show(ctx, &self.project, self.preview_texture.as_ref());
         ui::properties::show(ctx, &mut self.project);
         ui::timeline::show(ctx, &mut self.project);
@@ -75,5 +82,7 @@ impl eframe::App for CapRawrApp {
         if self.show_media_browser {
             ui::media_browser::show(ctx, &mut self.project, &mut self.show_media_browser);
         }
+
+        ui::export_dialog::show(ctx, &self.project, &mut self.export_state);
     }
 }

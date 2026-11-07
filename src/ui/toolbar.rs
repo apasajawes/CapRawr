@@ -1,7 +1,12 @@
 use egui::{self, Color32, RichText};
 use crate::engine::project::Project;
 
-pub fn show(ctx: &egui::Context, project: &mut Project, show_media_browser: &mut bool) {
+pub fn show(
+    ctx: &egui::Context,
+    project: &mut Project,
+    show_media_browser: &mut bool,
+    show_export_dialog: &mut bool,
+) {
     egui::TopBottomPanel::top("toolbar").show(ctx, |ui| {
         egui::menu::bar(ui, |ui| {
             ui.menu_button("File", |ui| {
@@ -27,6 +32,11 @@ pub fn show(ctx: &egui::Context, project: &mut Project, show_media_browser: &mut
                     {
                         let _ = project.save(&path);
                     }
+                    ui.close_menu();
+                }
+                ui.separator();
+                if ui.button("Export Video...").clicked() {
+                    *show_export_dialog = true;
                     ui.close_menu();
                 }
                 ui.separator();
@@ -70,6 +80,10 @@ pub fn show(ctx: &egui::Context, project: &mut Project, show_media_browser: &mut
 
             if ui.button("📁 Import Media").clicked() {
                 *show_media_browser = true;
+            }
+
+            if ui.button("📤 Export Video").clicked() {
+                *show_export_dialog = true;
             }
 
             // Add track buttons

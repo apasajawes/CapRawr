@@ -33,10 +33,12 @@ CapRawr takes the proven NLE architecture patterns from this analysis and implem
 - [x] Timeline zoom & scrolling
 - [x] Project save/load (`.caprawr` JSON format)
 - [x] Keyframe animation engine with easing (Linear, EaseIn, EaseOut, EaseInOut)
-- [x] Media file import dialog
-- [ ] FFmpeg decode/encode integration (next phase)
-- [ ] Real-time video preview playback (next phase)
+- [x] Media file import dialog with real metadata probing
+- [x] FFmpeg/ffprobe auto-discovery (system PATH or CapCut bundled binary fallback)
+- [x] Real-time video preview playback & frame decoding with LRU cache
 - [ ] GPU effect pipeline via wgpu (next phase)
+- [ ] Audio playback via rodio/cpal (next phase)
+- [ ] Export video rendering (next phase)
 
 ## Building
 
